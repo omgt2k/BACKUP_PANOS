@@ -17,13 +17,13 @@ if not os.path.exists(BACKUP_DIR):
 devices = [
     {
         "hostname": "FW1",
-        "host": "192.168.143.99",
+        "host": "1.1.1.1",
         "username": os.getenv("FW1_USER"),
         "password": os.getenv("FW1_PASS")
     },
     {
         "hostname": "FW2",
-        "host": "192.168.143.54",
+        "host": "2.2.2.2",
         "username": os.getenv("FW2_USER"),
         "password": os.getenv("FW2_PASS")
     }
