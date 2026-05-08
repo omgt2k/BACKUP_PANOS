@@ -1,6 +1,6 @@
 # Palo Alto PAN-OS Configuration Backup Tools
 
-TThis repository provides two automated solutions for retrieving configuration files from Palo Alto Networks (PAN-OS) firewalls. Both scripts handle output cleaning and format setting to provide a ready-to-use set format backup.
+This repository provides two automated solutions for retrieving configuration files from Palo Alto Networks (PAN-OS) firewalls. Both scripts handle output cleaning and format setting to provide a ready-to-use set format backup.
 
 ## Choose Your Flavor
 
@@ -26,17 +26,39 @@ The Python version is ideal for DevOps pipelines, Linux servers, or developers w
 pip install netmiko python-dotenv
 ```
 * **Configure Secrets:**
-Create a .env file in the root directory:
+The script looks for specific environment variables based on the device names. Create a .env file in the root directory and map your firewall credentials like this:
 ```
+# Device: FW1
 FW1_USER=FW1Username
 FW1_PASS=FW1YourSecretPassword
+# Device: FW2
 FW2_USER=FW2Username
 FW2_PASS=FW2YourSecretPassword
-...
+# Device: ...
 ```
+Note: The script currently expects these exact variable names. If you add more firewalls to the devices list in the script, ensure you add the corresponding USER and PASS keys to this file.
+* **Update the Device Inventory:**
+Add your username and managment ip adress into the Device Inventory part of the script
+``` python
+devices = [
+    {
+        "hostname": "FW1",
+        "host": "1.1.1.1",
+        "username": os.getenv("FW1_USER"),
+        "password": os.getenv("FW1_PASS")
+    },
+    {
+        "hostname": "FW2",
+        "host": "2.2.2.2",
+        "username": os.getenv("FW2_USER"),
+        "password": os.getenv("FW2_PASS")
+    }
+]
+``` 
+
 * **Run:**
 ``` python
-BACKUP_PANOS.py
+python BACKUP_PANOS.py
 ```
 ## Option 2: PowerShell (Windows Native)
 
