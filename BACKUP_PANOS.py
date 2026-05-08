@@ -16,16 +16,16 @@ if not os.path.exists(BACKUP_DIR):
 # Replicating your PowerShell Device Inventory
 devices = [
     {
-        "hostname": "PA460A",
+        "hostname": "FW1",
         "host": "192.168.143.99",
-        "username": os.getenv("PA460A_USER"),
-        "password": os.getenv("PA460A_PASS")
+        "username": os.getenv("FW1_USER"),
+        "password": os.getenv("FW1_PASS")
     },
     {
-        "hostname": "PA540A",
+        "hostname": "FW2",
         "host": "192.168.143.54",
-        "username": os.getenv("PA540A_USER"),
-        "password": os.getenv("PA540A_PASS")
+        "username": os.getenv("FW2_USER"),
+        "password": os.getenv("FW2_PASS")
     }
 ]
 
