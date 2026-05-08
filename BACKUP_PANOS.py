@@ -13,7 +13,7 @@ DATE_STR = datetime.now().strftime("%Y%m%d")
 if not os.path.exists(BACKUP_DIR):
     os.makedirs(BACKUP_DIR)
 
-# Replicating your PowerShell Device Inventory
+# Device Inventory
 devices = [
     {
         "hostname": "FW1",
