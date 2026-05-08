@@ -1,14 +1,54 @@
-# Palo Alto PAN-OS Configuration Backup Script
+# Palo Alto PAN-OS Configuration Backup Tools
 
-This PowerShell script automates the retrieval of configuration files from Palo Alto Networks (PAN-OS) firewalls. It handles module installation, password encryption, and output cleaning in one go.
+TThis repository provides two automated solutions for retrieving configuration files from Palo Alto Networks (PAN-OS) firewalls. Both scripts handle output cleaning and format setting to provide a ready-to-use set format backup.
 
-## Features
+## Choose Your Flavor
+
+| Feature      | PowerShell Version                   | Python Version                         |
+| :----------- | :----------------------------------- | :------------------------------------- |
+| Filename     | BACKUP_PANOS.ps1                     | BACKUP_PANOS.py                        |
+| Best For     | Native Windows environments          | Cross-platform (Windows, Linux, macOS) |
+| Security     | Windows DPAPI (tied to user profile) | .env Environment variables (Portable)  |
+| Dependencies | Posh-SSH module                      | Netmiko, python-dotenv                 |
+
+## Option 1: Python (Cross-Platform)
+
+The Python version is ideal for DevOps pipelines, Linux servers, or developers working across different operating systems.
+
+### Features
+* **Environment-Based Secrets:** Uses a .env file to keep credentials out of the code.
+* **Smart Cleaning:** Removes CLI headers, footers, and [edit] markers using list comprehension.
+* **Auto-Paging:** Leverages Netmiko to handle CLI paging automatically.
+
+### Setup & Usage
+* **Install Requirements:**
+``` shell
+pip install netmiko python-dotenv
+```
+* **Configure Secrets:**
+Create a .env file in the root directory:
+```
+FW1_USER=FW1Username
+FW1_PASS=FW1YourSecretPassword
+FW2_USER=FW2Username
+FW2_PASS=FW2YourSecretPassword
+...
+```
+* **Run:**
+``` python
+BACKUP_PANOS.py
+```
+## Option 2: PowerShell (Windows Native)
+
+The PowerShell version is perfect for Windows admins who want a script that handles its own module installation and uses Windows-integrated encryption.
+
+### Features
 * **Auto-Provisioning:** Automatically installs the `Posh-SSH` module and required `NuGet` providers if missing.
 * **Encrypted Passwords:** Uses Windows Data Protection API (DPAPI) so passwords aren't stored in plain text.
 * **Clean Output:** Automatically strips CLI artifacts like [edit], --More--, and command echos to provide a clean set format config file.
 * **Automated Workflow:** Sets the CLI pager off and output format to set before fetching the configuration.
 
-## Setup & Usage
+### Setup & Usage
 * **Change the output location for you backup:** Dont forget to chnage the path to your backup location in this variable
 ``` powershell
 $BackupDir = "C:\PANOS_BACKUP_Config"
@@ -42,7 +82,7 @@ $Devices = @(
 .\PANOS_BACKUP.ps1
 ```
 
-## Troubleshooting
+## Common Troubleshooting
 * **Ping Check:** Ensure you can ping the firewalls. If the script fails to connect, check the Management Permitted IP list on the Palo Alto device.
 * **Module Issues:** If the script hangs on "Checking prerequisites," ensure you have internet access for the initial download of the Posh-SSH module.
 * **New Machine:** If you move this script to a different computer, the Pass strings will become invalid. You will need to repeat Step 1 on the new machine.
